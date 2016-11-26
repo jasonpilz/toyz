@@ -1,0 +1,13 @@
+source 'http://rubygems.org'
+
+ruby '2.3.3'
+
+gem 'elasticsearch'
+gem 'typhoeus'
+gem 'pry'
+gem 'pry-state'
+gem 'pry-byebug'
+gem 'awesome_print'
+gem 'multi_json'
+gem 'oj'
+gem 'bunny'
