@@ -4,14 +4,33 @@ require 'typhoeus/adapters/faraday'
 require 'multi_json'
 require 'oj'
 require 'bunny'
+# require 'sneakers'
 require 'pry'
+
+# class Consumer
+#   include Sneakers::Worker
+#   from_queue 'mmCS.upload.song_title'
+
+#   def work(msg)
+
+#     binding.pry
+
+#     ack!
+#   end
+# end
 
 # RabbitMQ
 connection = Bunny.new
 connection.start
 
-channel = connection.create_channel
-queue   = channel.queue('elasticsearch.test', durable: true)
+channel  = connection.create_channel
+queue    = channel.queue('elasticsearch.test', durable: true)
+
+queue.subscribe do |delivery_info, metadata, payload|
+  hash = MultiJson.load(payload)
+
+  binding.pry
+end
 
 queue.publish(
   MultiJson.dump(
@@ -26,7 +45,9 @@ queue.publish(
   )
 )
 
-delivery_info, metadata, payload = queue.pop
+sleep 2
+
+# delivery_info, metadata, payload = queue.pop
 
 binding.pry
 
